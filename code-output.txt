@@ -1,0 +1,29 @@
+new vpc created with vpc_id: vpc-0beeebc750c35155d
+public subnets are successfully created, public_subnet1_id: subnet-0d1e62045e87331a7 and public_subnet2_id: subnet-0c4ff6ce319d9dec3
+private subnets are successfully created, public_subnet1_id: subnet-0a6016fa2073ca273 and public_subnet2_id: subnet-05ed304941abf8716
+IGW created with IGW_id: igw-0311711a4be793b04
+public RT created with public_RT_id: rtb-0d3f37ccfdbbe18bb
+public subnets are successfully associated to public RT
+public subnets are successfully associated to public RT
+Private RT created with Private_RT_id: rtb-0ac4127a10b8b3c6f
+Private subnets are successfully associated to Private RT
+NAT GW created with nat_gw_id: nat-0be5efc4cbe0132ab
+NAT Gateway is starting....
+NAT Gateway is available Now
+Web Security Group is created with web_SG_ID: sg-0ac28cd0524ded1cd
+ inbound rules for ports [22,80,443] are successfully added for web SG 
+Web servers[instances] are being started ......
+Web servers[instances] are running now 
+2 instances are successfully created, with instance1_id: i-0c052f47db2afdc2a and instance2_id: i-0fe3f0d6095138c1c
+WEB_TG is successfully created with TargetGroupARN: arn:aws:elasticloadbalancing:us-east-1:989635529027:targetgroup/WEB-TG/4c81b17aecbe34b5
+web servers[instances] are  rgistering  successfully to web_TG 
+ALB Security Group is created with ALB_SG_id: sg-00e3cb109587d3c42
+ALB is being started ......
+ALB is Up and Available Now
+ALB is created successfully with ALB_ARN: arn:aws:elasticloadbalancing:us-east-1:989635529027:loadbalancer/app/python-LB/280ab92acea87ed2, and with ALB_DNS: python-LB-1458511911.us-east-1.elb.amazonaws.com
+ALB listener is created successfully 
+Launch Template created successfully 
+auto_scaling_group is created successfully with ARN: arn:aws:autoscaling:us-east-1:989635529027:autoScalingGroup:950f1d18-ae81-46a5-8abe-0417d850bb4a:autoScalingGroupName/WEB-ASG
+RDS Instance is being started ......
+RDS Instance is up and available now
+The RDS Instance DB has been created successfully , its arn is arn:aws:rds:us-east-1:039266304030:db:appdbinstance and its DNS Address is appdbinstance.cahnlkdx76kk.us-east-1.rds.amazonaws.com
