@@ -1,29 +1,30 @@
-new vpc created with vpc_id: vpc-0beeebc750c35155d
-public subnets are successfully created, public_subnet1_id: subnet-0d1e62045e87331a7 and public_subnet2_id: subnet-0c4ff6ce319d9dec3
-private subnets are successfully created, public_subnet1_id: subnet-0a6016fa2073ca273 and public_subnet2_id: subnet-05ed304941abf8716
-IGW created with IGW_id: igw-0311711a4be793b04
-public RT created with public_RT_id: rtb-0d3f37ccfdbbe18bb
+new vpc created with vpc_id: vpc-024b31d7f1ebd87c9
+public subnets are successfully created, public_subnet1_id: subnet-0f8b10598bbd0e82d and public_subnet2_id: subnet-0d6e3592e3037b920
+private subnets are successfully created, public_subnet1_id: subnet-03efd020c5c489833 and public_subnet2_id: subnet-07ce21caa47826ad9
+IGW created with IGW_id: igw-0e10b90e75766c562
+public RT created with public_RT_id: rtb-07603debd1e0ebf85
 public subnets are successfully associated to public RT
 public subnets are successfully associated to public RT
-Private RT created with Private_RT_id: rtb-0ac4127a10b8b3c6f
+Private RT created with Private_RT_id: rtb-0c39737e0ffc2082f
 Private subnets are successfully associated to Private RT
-NAT GW created with nat_gw_id: nat-0be5efc4cbe0132ab
+NAT GW created with nat_gw_id: nat-0e2108d4326cc5612
 NAT Gateway is starting....
 NAT Gateway is available Now
-Web Security Group is created with web_SG_ID: sg-0ac28cd0524ded1cd
+Web Security Group is created with web_SG_ID: sg-0cc613ef3ebf75e6a
  inbound rules for ports [22,80,443] are successfully added for web SG 
 Web servers[instances] are being started ......
 Web servers[instances] are running now 
-2 instances are successfully created, with instance1_id: i-0c052f47db2afdc2a and instance2_id: i-0fe3f0d6095138c1c
-WEB_TG is successfully created with TargetGroupARN: arn:aws:elasticloadbalancing:us-east-1:989635529027:targetgroup/WEB-TG/4c81b17aecbe34b5
+2 instances are successfully created, with instance1_id: i-0fa641587c622e25b and instance2_id: i-0b571d8dabab30dd4
+WEB_TG is successfully created with TargetGroupARN: arn:aws:elasticloadbalancing:us-east-1:989635529027:targetgroup/WEB-TG/05c27871a78e8555
 web servers[instances] are  rgistering  successfully to web_TG 
-ALB Security Group is created with ALB_SG_id: sg-00e3cb109587d3c42
+ALB Security Group is created with ALB_SG_id: sg-0deceaccfaf69644c
 ALB is being started ......
 ALB is Up and Available Now
-ALB is created successfully with ALB_ARN: arn:aws:elasticloadbalancing:us-east-1:989635529027:loadbalancer/app/python-LB/280ab92acea87ed2, and with ALB_DNS: python-LB-1458511911.us-east-1.elb.amazonaws.com
+ALB is created successfully with ALB_ARN: arn:aws:elasticloadbalancing:us-east-1:989635529027:loadbalancer/app/python-LB/36e8d85e5cad8b2d, and with ALB_DNS: python-LB-556934346.us-east-1.elb.amazonaws.com
 ALB listener is created successfully 
-Launch Template created successfully 
-auto_scaling_group is created successfully with ARN: arn:aws:autoscaling:us-east-1:989635529027:autoScalingGroup:950f1d18-ae81-46a5-8abe-0417d850bb4a:autoScalingGroupName/WEB-ASG
+Launch Template created successfully
+auto_scaling_group is created successfully with ARN: arn:aws:autoscaling:us-east-1:989635529027:autoScalingGroup:93f6eb4d-3a4a-4028-8a11-a5884d46012a:autoScalingGroupName/my-auto-scaling-group
+Security Group DB_SG created successfully, ID: sg-090d2c678edd2863a
 RDS Instance is being started ......
 RDS Instance is up and available now
-The RDS Instance DB has been created successfully , its arn is arn:aws:rds:us-east-1:039266304030:db:appdbinstance and its DNS Address is appdbinstance.cahnlkdx76kk.us-east-1.rds.amazonaws.com
+RDS Instance created successfully! ARN: arn:aws:rds:us-east-1:989635529027:db:appdbinstance, DNS: appdbinstance.cmf42cu2qhxx.us-east-1.rds.amazonaws.com

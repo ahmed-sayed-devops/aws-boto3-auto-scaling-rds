@@ -33,7 +33,8 @@ for az,cider in zip(AV_Zones,private_subnet_ciders):
   create_private_subnet=ec2_client.create_subnet( AvailabilityZone=az, CidrBlock=cider,VpcId=vpc_id)
   private_subnets_id.append(create_private_subnet['Subnet']['SubnetId'])
 print(f"private subnets are successfully created, public_subnet1_id: {private_subnets_id[0]} and public_subnet2_id: {private_subnets_id[1]}")
-
+private_subnet1_id=private_subnets_id[0]
+private_subnet2_id=private_subnets_id[1]
 #5-create internet GetWay
 create_IGW = ec2_client.create_internet_gateway()
 IGW_id = create_IGW['InternetGateway']['InternetGatewayId']
@@ -369,15 +370,19 @@ create_asg = auto_scaling_client.create_auto_scaling_group(
     MaxSize=4,
     DesiredCapacity=3,
     AvailabilityZones=AV_Zones,
-    VPCZoneIdentifier = private_subnets_id,
+    VPCZoneIdentifier = ",".join([private_subnet1_id, private_subnet2_id]),
     TargetGroupARNs=[web_TG_ARN]
 )
 describe_auto_scaling_group = auto_scaling_client.describe_auto_scaling_groups(AutoScalingGroupNames=['my-auto-scaling-group'])
 print (f"auto_scaling_group is created successfully with ARN: {describe_auto_scaling_group['AutoScalingGroups'][0]['AutoScalingGroupARN']}")
 
-''' 25 - create the RDS DataBase and its security group'''
-# A- Create a DB security group
-DB_SG = ec2_cli.create_security_group(
+
+
+# 25 - create the RDS DataBase and its security group
+rds_client = aws_session.client('rds', region_name='us-east-1')
+
+# Create Security Group for DB
+DB_SG = ec2_client.create_security_group(
     Description='SG for Database',
     GroupName='db_SG',
     VpcId=vpc_id,
@@ -385,60 +390,54 @@ DB_SG = ec2_cli.create_security_group(
         {
             'ResourceType': 'security-group',
             'Tags': [
-                {
-                    'Key': 'Name',
-                    'Value': 'DB_SG'
-                },
+                {'Key': 'Name', 'Value': 'DB_SG'}
             ]
         },
     ],
 )
-
 DB_SG_ID = DB_SG['GroupId']
-print(f"Security Group DB_SG has been created successfully , its id is {DB_SG_ID}")
+print(f"Security Group DB_SG created successfully, ID: {DB_SG_ID}")
 
-# B- Authorize inbound access to the DB security group from only WebSG security group
-ec2_cli.authorize_security_group_ingress(
+# Allow access from WebSG only
+ec2_client.authorize_security_group_ingress(
     GroupId=DB_SG_ID,
     IpPermissions=[
         {
             'FromPort': 0,
             'ToPort': 0,
             'IpProtocol': '-1',
-            'UserIdGroupPairs': [
-                {
-                    'GroupId': WebSG_ID,
-                },
-            ],
+            'UserIdGroupPairs': [{'GroupId': web_SG_id}],
         },
     ],
 )
 
-# C - Create the DB Subnet Group
+# Create DB Subnet Group
 rds_client.create_db_subnet_group(
     DBSubnetGroupDescription='RDS Databases Subnet Group',
     DBSubnetGroupName='myrdsdbsubnetgroup',
-    SubnetIds=private_subnet_ids
+    SubnetIds=private_subnets_id
 )
 
-# D- Launch The Multi-AZ RDS database
+# Launch the RDS Instance
 response = rds_client.create_db_instance(
     DBInstanceIdentifier='AppDBInstance',
-    DBInstanceClass='db.t2.micro',
+    DBInstanceClass='db.t3.micro',      # Free Tier compatible
     Engine='mysql',
-    AllocatedStorage=10,
+    EngineVersion='8.0.42',             # Supported on t2.micro
+    AllocatedStorage=20,                # Minimum storage for Free Tier
     MasterUsername='admin',
-    MasterUserPassword='app25db',
+    MasterUserPassword='abcde123',
     DBSubnetGroupName='myrdsdbsubnetgroup',
-    VpcSecurityGroupIds=[DB_SG_ID, ],
-    MultiAZ=True
+    VpcSecurityGroupIds=[DB_SG_ID],
+    MultiAZ=False                        # Free Tier does not support Multi-AZ
 )
+
 rds_arn = response['DBInstance']['DBInstanceArn']
 waiter = rds_client.get_waiter('db_instance_available')
 print("RDS Instance is being started ......")
 waiter.wait(DBInstanceIdentifier='AppDBInstance')
 print("RDS Instance is up and available now")
+
 rds = rds_client.describe_db_instances(DBInstanceIdentifier='AppDBInstance')
 rds_address = rds['DBInstances'][0]['Endpoint']['Address']
-print(
-    f"The RDS Instance DB has been created successfully , its arn is {rds_arn} and its DNS Address is {rds_address}")
+print(f"RDS Instance created successfully! ARN: {rds_arn}, DNS: {rds_address}")
