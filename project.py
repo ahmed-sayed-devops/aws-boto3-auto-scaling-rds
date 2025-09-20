@@ -378,10 +378,12 @@ print (f"auto_scaling_group is created successfully with ARN: {describe_auto_sca
 
 
 
-# 25 - create the RDS DataBase and its security group
+''' 31 - create the RDS DataBase and its security group'''
+
+# A-Create a client for RDS
 rds_client = aws_session.client('rds', region_name='us-east-1')
 
-# Create Security Group for DB
+# B-Create Security Group for DB
 DB_SG = ec2_client.create_security_group(
     Description='SG for Database',
     GroupName='db_SG',
@@ -398,7 +400,7 @@ DB_SG = ec2_client.create_security_group(
 DB_SG_ID = DB_SG['GroupId']
 print(f"Security Group DB_SG created successfully, ID: {DB_SG_ID}")
 
-# Allow access from WebSG only
+#C- Allow access from WebSG only
 ec2_client.authorize_security_group_ingress(
     GroupId=DB_SG_ID,
     IpPermissions=[
@@ -411,14 +413,14 @@ ec2_client.authorize_security_group_ingress(
     ],
 )
 
-# Create DB Subnet Group
+# D-Create DB Subnet Group
 rds_client.create_db_subnet_group(
     DBSubnetGroupDescription='RDS Databases Subnet Group',
     DBSubnetGroupName='myrdsdbsubnetgroup',
     SubnetIds=private_subnets_id
 )
 
-# Launch the RDS Instance
+# E-Launch the RDS Instance
 response = rds_client.create_db_instance(
     DBInstanceIdentifier='AppDBInstance',
     DBInstanceClass='db.t3.micro',      # Free Tier compatible
