@@ -117,8 +117,8 @@ As part of the infrastructure, an Amazon RDS instance is also provisioned using 
 
 1. Clone the repository  
    ```bash
-   git clone https://github.com/your-username/aws-autoscaling-app.git
-   cd aws-autoscaling-app
+   git clone [https://github.com/ahmed-sayed-devops/aws-boto3-auto-scaling-rds.git]
+   cd aws-boto3-auto-scaling-rds
    
 
 2. *Configure AWS credentials*  
